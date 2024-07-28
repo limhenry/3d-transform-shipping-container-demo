@@ -5,13 +5,15 @@
 body {
   margin: 0;
   padding: 24px;
-  height: 100vh;
+  min-height: 100vh;
   font-family: sans-serif;
   background-color: #939393;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  text-align: center;
+  gap: 16px;
 }
 
 main {
@@ -22,7 +24,7 @@ main {
   flex-direction: column;
   width: 100%;
   max-width: 960px;
-  margin: 24px;
+  margin: 0 24px;
   padding: 48px 48px 64px;
 
   h1 {
@@ -40,6 +42,7 @@ main {
 .frame {
   width: 500px;
   height: 500px;
+  overflow: hidden;
 
   .containers {
     --scale-ratio: 0.2;
@@ -100,7 +103,6 @@ main {
       width: var(--container-width);
       height: var(--container-height);
       align-content: center;
-      text-align: center;
       transform-origin: left;
       background-size: cover;
 
@@ -148,7 +150,6 @@ main {
   grid-template-columns: 48px 1fr 48px;
   align-items: center;
   gap: 8px 36px;
-  text-align: center;
 
   button {
     border-radius: 50%;
@@ -186,6 +187,24 @@ footer,
 footer a {
   font-size: 13px;
   color: #e5e5e5;
+}
+
+@media screen and (max-width: 860px) {
+  body {
+    padding: 16px;
+  }
+  main {
+    padding: 24px 24px 48px;
+  }
+  .frame {
+    width: 300px;
+    height: 300px;
+
+    .containers {
+      --scale-ratio: 0.1;
+      transform: translate(120px, 160px) rotateX(345deg) rotateY(40deg);
+    }
+  }
 }
 
 @keyframes reveal {

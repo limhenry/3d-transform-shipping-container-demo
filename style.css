@@ -45,7 +45,7 @@ main {
   overflow: hidden;
 
   .containers {
-    --scale-ratio: 0.2;
+    --scale-ratio: 0.18;
     --container-width: calc(760px * var(--scale-ratio));
     --container-height: calc(704px * var(--scale-ratio));
     --container-length: calc(1869px * var(--scale-ratio));

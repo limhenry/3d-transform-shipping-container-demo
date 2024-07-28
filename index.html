@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Container Quantity</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <h1>Container Quantity</h1>
+    <h2>Add up to 4 containers, because everything is hard-coded</h2>
+    <div class="frame">
+      <div class="containers">
+        <div class="container-wrapper active" id="container-1">
+          <div class="container">
+            <div class="side side--front"></div>
+            <div class="side side--back"></div>
+            <div class="side side--left"></div>
+            <div class="side side--right"></div>
+            <div class="side side--top"></div>
+            <div class="side side--bottom"></div>
+          </div>
+        </div>
+
+        <div class="container-wrapper" id="container-2">
+          <div class="container">
+            <div class="side side--front"></div>
+            <div class="side side--back"></div>
+            <div class="side side--left"></div>
+            <div class="side side--right"></div>
+            <div class="side side--top"></div>
+            <div class="side side--bottom"></div>
+          </div>
+        </div>
+
+        <div class="container-wrapper" id="container-3">
+          <div class="container">
+            <div class="side side--front"></div>
+            <div class="side side--back"></div>
+            <div class="side side--left"></div>
+            <div class="side side--right"></div>
+            <div class="side side--top"></div>
+            <div class="side side--bottom"></div>
+          </div>
+        </div>
+
+        <div class="container-wrapper" id="container-4">
+          <div class="container">
+            <div class="side side--front"></div>
+            <div class="side side--back"></div>
+            <div class="side side--left"></div>
+            <div class="side side--right"></div>
+            <div class="side side--top"></div>
+            <div class="side side--bottom"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="counter">
+      <button onclick="minus()">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#404040">
+          <path d="M240-440q-17 0-28.5-11.5T200-480q0-17 11.5-28.5T240-520h480q17 0 28.5 11.5T760-480q0 17-11.5 28.5T720-440H240Z"/>
+        </svg>
+      </button>
+      <div class="count">1</div>
+      <button onclick="add()">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#404040">
+          <path d="M440-440H240q-17 0-28.5-11.5T200-480q0-17 11.5-28.5T240-520h200v-200q0-17 11.5-28.5T480-760q17 0 28.5 11.5T520-720v200h200q17 0 28.5 11.5T760-480q0 17-11.5 28.5T720-440H520v200q0 17-11.5 28.5T480-200q-17 0-28.5-11.5T440-240v-200Z"/>
+        </svg>
+      </button>
+      <h4>Container(s)</h4>
+    </div>
+  </main>
+  <footer>Made with ♥️ by <a href="https://twitter.com/henrylim96" target="_blank">Henry Lim</a> in Hamburg</footer>
+  
+  <script>
+    let count = 1;
+
+    const add = () => {
+      if (count === 4) return;
+      count = count + 1;
+      document.querySelector(`#container-${count}`).classList.toggle('active');
+      document.querySelector('.count').textContent = count;
+    }
+
+    const minus = () => {
+      if (count === 0) return;
+      document.querySelector(`#container-${count}`).classList.toggle('active');
+      count = count - 1;
+      document.querySelector('.count').textContent = count;
+    }
+  </script>
+</body>
+</html>

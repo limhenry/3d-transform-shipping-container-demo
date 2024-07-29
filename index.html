@@ -70,6 +70,11 @@
       </button>
       <h4>Container(s)</h4>
     </div>
+
+    <label class="spin-label">
+      <input type="checkbox" onchange="spin()">
+      <span>Spin the containers</span>
+    </label>
   </main>
   <footer>Made with ♥️ by <a href="https://twitter.com/henrylim96" target="_blank">Henry Lim</a> in Hamburg &middot; <a href="https://github.com/limhenry/3d-transform-shipping-container-demo" target="_blank">GitHub</a></footer>
   
@@ -88,6 +93,10 @@
       count = count - 1;
       document.querySelectorAll('.container-wrapper')[count].classList.toggle('active');
       document.querySelector('.count').textContent = count;
+    }
+
+    const spin = () => {
+      document.querySelector('.containers').classList.toggle('spin');
     }
   </script>
 </body>

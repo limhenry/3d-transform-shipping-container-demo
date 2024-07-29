@@ -3,6 +3,11 @@
 }
 
 body {
+  --scale: 0.5;
+  --width: calc(235px * var(--scale));
+  --height: calc(239px * var(--scale));
+  --length: calc(590px * var(--scale));
+
   margin: 0;
   padding: 24px;
   min-height: 100dvh;
@@ -26,6 +31,7 @@ main {
   max-width: 960px;
   margin: 0 24px;
   padding: 48px 48px 64px;
+  overflow: hidden;
 
   h1 {
     margin: 8px 0;
@@ -40,109 +46,106 @@ main {
 }
 
 .frame {
-  width: 500px;
-  height: 500px;
-  overflow: hidden;
+  width: calc(var(--width) * 4);
+  height: calc(var(--height) * 4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-  .containers {
-    --scale-ratio: 0.18;
-    --container-width: calc(760px * var(--scale-ratio));
-    --container-height: calc(704px * var(--scale-ratio));
-    --container-length: calc(1869px * var(--scale-ratio));
+.containers {
+  position: relative;
+  transform-style: preserve-3d;
+  width: calc(var(--width) * 2);
+  height: calc(var(--height) * 2);
+  transform: rotateX(-20deg) rotateY(45deg);
+}
 
-    transform-style: preserve-3d;
-    transform: translate(250px, 300px) rotateX(345deg) rotateY(40deg);
-    transform-origin: 0;
+.container-wrapper {
+  position: relative;
+  transform-style: preserve-3d;
 
-    .container-wrapper {
-      transform-style: preserve-3d;
+  &:nth-child(1) {
+    transform: translateY(var(--height));
+  }
 
-      &.active {
-        .container {
-        animation: 500ms reveal ease;
-        }
+  &:nth-child(2) {
+    transform: translateX(var(--width)) translateY(var(--height));
+  }
 
-        .side {
-          opacity: 1;
-        }
-      }
+  &:nth-child(4) {
+    transform: translateX(var(--width));
+  }
 
-      &:nth-child(1),
-      &:nth-child(2) {
-        .side--bottom {
-          transition: 300ms 50ms ease box-shadow;
-          box-shadow: -7px 10px 20px 7px #ffffff00;
-        }
-
-        &.active .side--bottom {
-          box-shadow: -7px 10px 20px 7px #6e6e6e;
-        }
-      }
-
-      &:nth-child(2) {
-        transform: translateX(var(--container-width));
-      }
-
-      &:nth-child(3) {
-        transform: translateY(calc(var(--container-height) * -1));
-      }
-
-      &:nth-child(4) {
-        transform: translateX(var(--container-width)) translateY(calc(var(--container-height) * -1));
+  &.active {
+    &:nth-child(1),
+    &:nth-child(2) {
+      .face--bottom {
+        box-shadow: -8px -12px 22px 6px #959595;
       }
     }
 
     .container {
-      position: relative;
-      transform-style: preserve-3d;
-    }
+      animation: 500ms reveal ease;
 
-    .side {
-      transition: opacity 100ms ease;
-      opacity: 0;
-      position: absolute;
-      width: var(--container-width);
-      height: var(--container-height);
-      align-content: center;
-      transform-origin: left;
-      background-size: cover;
-
-      &.side--front {
-        background-image: url(./images/front.webp);
-      }
-
-      &.side--back {
-        transform-origin: center;
-        transform: scaleX(-1) translateZ(calc(var(--container-length) * -1));
-        background-image: url(./images/front.webp);
-      }
-
-      &.side--left {
-        transform: rotateY(90deg) scaleX(-1) translateX(calc(var(--container-length) * -1));
-        width: var(--container-length);
-        background-image: url(./images/side.webp);
-      }
-
-      &.side--right {
-        transform: rotateY(90deg) translateZ(var(--container-width));
-        width: var(--container-length);
-        background-image: url(./images/side.webp);
-      }
-
-      &.side--top {
-        transform: rotateX(90deg) translateY(calc(var(--container-length) * -1));
-        transform-origin: top;
-        height: var(--container-length);
-        background-image: url(./images/top.webp);
-      }
-
-      &.side--bottom {
-        transform: rotateX(90deg) translateY(calc(var(--container-length) * -1)) translateZ(calc(var(--container-height) * -1));
-        transform-origin: top;
-        height: var(--container-length);
-        background-image: url(./images/top.webp);
+      .face {
+        opacity: 1;
       }
     }
+  }
+}
+
+.container {
+  transform-style: preserve-3d;
+
+  .face {
+    position: absolute;
+    width: var(--width);
+    height: var(--height);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 100ms ease;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .face--front {
+    transform: rotateY(0deg) translateZ(calc(var(--length) / 2));
+    background-image: url(./images/front.webp);
+  }
+
+  .face--back {
+    transform: rotateY(180deg) translateZ(calc(var(--length) / 2));
+    background-image: url(./images/front.webp);
+  }
+
+  .face--left {
+    --translate-x: calc((var(--width) / 2) - (var(--length) / 2));
+    transform: translateX(var(--translate-x)) rotateY(-90deg) translateZ(calc(var(--width) / 2));
+    width: var(--length);
+    background-image: url(./images/side.webp);
+  }
+
+  .face--right {
+    --translate-x: calc((var(--width) / 2) - (var(--length) / 2));
+    transform: translateX(var(--translate-x)) rotateY(90deg) translateZ(calc(var(--width) / 2));
+    width: var(--length);
+    background-image: url(./images/side.webp);
+  }
+
+  .face--top {
+    transform: rotateX(90deg) translateZ(calc(var(--length) / 2));
+    height: var(--length);
+    background-image: url(./images/top.webp);
+  }
+
+  .face--bottom {
+    --translate-z: calc((var(--length) / -2) + var(--height));
+    transform: rotateX(-90deg) translateZ(var(--translate-z));
+    height: var(--length);
+    background-image: url(./images/top.webp);
   }
 }
 
@@ -192,20 +195,14 @@ footer a {
 
 @media screen and (max-width: 860px) {
   body {
-    padding: 16px;
-  }
-  main {
-    padding: 24px 24px 48px;
-  }
-  .frame {
-    width: 300px;
-    height: 300px;
+    --scale: 0.4;
+  }  
+}
 
-    .containers {
-      --scale-ratio: 0.1;
-      transform: translate(150px, 170px) rotateX(345deg) rotateY(40deg);
-    }
-  }
+@media screen and (max-width: 640px) {
+  body {
+    --scale: 0.3;
+  }  
 }
 
 @keyframes reveal {

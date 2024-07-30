@@ -120,39 +120,39 @@ main {
 
   .face--front {
     transform: rotateY(0deg) translateZ(calc(var(--length) / 2));
-    background-image: url(./images/front.webp);
+    background-image: url(../images/front.webp);
   }
 
   .face--back {
     transform: rotateY(180deg) translateZ(calc(var(--length) / 2));
-    background-image: url(./images/front.webp);
+    background-image: url(../images/front.webp);
   }
 
   .face--left {
     --translate-x: calc((var(--width) / 2) - (var(--length) / 2));
     transform: translateX(var(--translate-x)) rotateY(-90deg) translateZ(calc(var(--width) / 2));
     width: var(--length);
-    background-image: url(./images/side.webp);
+    background-image: url(../images/side.webp);
   }
 
   .face--right {
     --translate-x: calc((var(--width) / 2) - (var(--length) / 2));
     transform: translateX(var(--translate-x)) rotateY(90deg) translateZ(calc(var(--width) / 2));
     width: var(--length);
-    background-image: url(./images/side.webp);
+    background-image: url(../images/side.webp);
   }
 
   .face--top {
     transform: rotateX(90deg) translateZ(calc(var(--length) / 2));
     height: var(--length);
-    background-image: url(./images/top.webp);
+    background-image: url(../images/top.webp);
   }
 
   .face--bottom {
     --translate-z: calc((var(--length) / -2) + var(--height));
     transform: rotateX(-90deg) translateZ(var(--translate-z));
     height: var(--length);
-    background-image: url(./images/top.webp);
+    background-image: url(../images/top.webp);
   }
 }
 

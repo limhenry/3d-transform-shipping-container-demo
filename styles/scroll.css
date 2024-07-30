@@ -1,0 +1,110 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  --scale: 1;
+  --width: calc(235px * var(--scale));
+  --height: calc(239px * var(--scale));
+  --length: calc(590px * var(--scale));
+
+  margin: 0;
+  height: 500vh;
+  background: black;
+}
+
+.container-wrapper {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  width: calc(var(--width));
+  height: calc(var(--height));
+  position: relative;
+  transform-style: preserve-3d;
+  transform: rotateX(-20deg) rotateY(90deg);
+
+  animation: spin linear both;
+  animation-timeline: scroll();
+
+  .face {
+    position: absolute;
+    width: var(--width);
+    height: var(--height);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    transition: opacity 100ms ease;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .face--front {
+    transform: rotateY(0deg) translateZ(calc(var(--length) / 2));
+    background-image: url(../images/front.webp);
+  }
+
+  .face--back {
+    transform: rotateY(180deg) translateZ(calc(var(--length) / 2));
+    background-image: url(../images/front.webp);
+  }
+
+  .face--left {
+    --translate-x: calc((var(--width) / 2) - (var(--length) / 2));
+    transform: translateX(var(--translate-x)) rotateY(-90deg) translateZ(calc(var(--width) / 2));
+    width: var(--length);
+    background-image: url(../images/side.webp);
+  }
+
+  .face--right {
+    --translate-x: calc((var(--width) / 2) - (var(--length) / 2));
+    transform: translateX(var(--translate-x)) rotateY(90deg) translateZ(calc(var(--width) / 2));
+    width: var(--length);
+    background-image: url(../images/side.webp);
+  }
+
+  .face--top {
+    transform: rotateX(90deg) translateZ(calc(var(--length) / 2));
+    height: var(--length);
+    background-image: url(../images/top.webp);
+  }
+
+  .face--bottom {
+    --translate-z: calc((var(--length) / -2) + var(--height));
+    transform: rotateX(-90deg) translateZ(var(--translate-z));
+    height: var(--length);
+    background-image: url(../images/top.webp);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotateX(-20deg) rotateY(120deg) scale3d(1,1,1);
+  }
+  to {
+    transform: rotateX(-5deg) rotateY(360deg) scale3d(1.5,1.5,1.5);
+  }
+}
+
+@media screen and (max-width: 960px) {
+  body {
+    --scale: 0.9;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  body {
+    --scale: 0.6;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  body {
+    --scale: 0.4;
+  }
+}

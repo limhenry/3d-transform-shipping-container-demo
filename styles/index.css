@@ -36,13 +36,6 @@ main {
   h1 {
     margin: 8px 0;
   }
-
-  h2 {
-    font-size: 16px;
-    color: #737373;
-    font-weight: 400;
-    margin: 8px 0;
-  }
 }
 
 .frame {
@@ -59,10 +52,8 @@ main {
 .containers {
   position: relative;
   transform-style: preserve-3d;
-  width: calc(var(--width) * 2);
-  height: calc(var(--height) * 2);
   transform: rotateX(-20deg) rotateY(45deg);
-  
+
   &.spin {
     animation: spin 8s linear infinite;
   }
@@ -72,33 +63,8 @@ main {
   position: relative;
   transform-style: preserve-3d;
 
-  &:nth-child(1) {
-    transform: translateY(var(--height));
-  }
-
-  &:nth-child(2) {
-    transform: translateX(var(--width)) translateY(var(--height));
-  }
-
-  &:nth-child(4) {
-    transform: translateX(var(--width));
-  }
-
-  &.active {
-    &:nth-child(1),
-    &:nth-child(2) {
-      .face--bottom {
-        box-shadow: -8px -12px 22px 6px #959595;
-      }
-    }
-
-    .container {
-      animation: 500ms reveal ease;
-
-      .face {
-        opacity: 1;
-      }
-    }
+  .container {
+    animation: 500ms reveal ease;
   }
 }
 
@@ -112,8 +78,6 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 0;
-    transition: opacity 100ms ease;
     background-size: cover;
     background-position: center;
   }
@@ -130,14 +94,16 @@ main {
 
   .face--left {
     --translate-x: calc((var(--width) / 2) - (var(--length) / 2));
-    transform: translateX(var(--translate-x)) rotateY(-90deg) translateZ(calc(var(--width) / 2));
+    transform: translateX(var(--translate-x)) rotateY(-90deg)
+      translateZ(calc(var(--width) / 2));
     width: var(--length);
     background-image: url(../images/side.webp);
   }
 
   .face--right {
     --translate-x: calc((var(--width) / 2) - (var(--length) / 2));
-    transform: translateX(var(--translate-x)) rotateY(90deg) translateZ(calc(var(--width) / 2));
+    transform: translateX(var(--translate-x)) rotateY(90deg)
+      translateZ(calc(var(--width) / 2));
     width: var(--length);
     background-image: url(../images/side.webp);
   }
@@ -180,10 +146,21 @@ main {
   }
 
   .count {
-    font-size:86px;
-    width: 86px;
+    font-size: 86px;
+    width: 150px;
     margin: 0;
     font-weight: 600;
+    border: none;
+    text-align: center;
+    background: none;
+    font-family: inherit;
+    color: inherit;
+
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
   }
 
   h4 {
@@ -214,13 +191,13 @@ footer a {
 @media screen and (max-width: 860px) {
   body {
     --scale: 0.4;
-  }  
+  }
 }
 
 @media screen and (max-width: 640px) {
   body {
     --scale: 0.3;
-  }  
+  }
 }
 
 @keyframes reveal {

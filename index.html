@@ -10,51 +10,10 @@
 <body>
   <main>
     <h1>Container Quantity</h1>
-    <h2>Add up to 4 containers, because everything is hard-coded</h2>
+    <h2>Add as many containers as you like, the model scales to fit</h2>
 
     <div class="frame">
-      <div class="containers">
-        <div class="container-wrapper active">
-          <div class="container">
-            <div class="face face--front"></div>
-            <div class="face face--back"></div>
-            <div class="face face--left"></div>
-            <div class="face face--right"></div>
-            <div class="face face--top"></div>
-            <div class="face face--bottom"></div>
-          </div>
-        </div>
-        <div class="container-wrapper">
-          <div class="container">
-            <div class="face face--front"></div>
-            <div class="face face--back"></div>
-            <div class="face face--left"></div>
-            <div class="face face--right"></div>
-            <div class="face face--top"></div>
-            <div class="face face--bottom"></div>
-          </div>
-        </div>
-        <div class="container-wrapper">
-          <div class="container">
-            <div class="face face--front"></div>
-            <div class="face face--back"></div>
-            <div class="face face--left"></div>
-            <div class="face face--right"></div>
-            <div class="face face--top"></div>
-            <div class="face face--bottom"></div>
-          </div>
-        </div>
-        <div class="container-wrapper">
-          <div class="container">
-            <div class="face face--front"></div>
-            <div class="face face--back"></div>
-            <div class="face face--left"></div>
-            <div class="face face--right"></div>
-            <div class="face face--top"></div>
-            <div class="face face--bottom"></div>
-          </div>
-        </div>
-      </div>
+      <div class="containers"></div>
     </div>
 
     <div class="counter">
@@ -63,7 +22,7 @@
           <path d="M240-440q-17 0-28.5-11.5T200-480q0-17 11.5-28.5T240-520h480q17 0 28.5 11.5T760-480q0 17-11.5 28.5T720-440H240Z"/>
         </svg>
       </button>
-      <div class="count">1</div>
+      <input class="count" type="number" min="1" value="1" aria-label="Container Quantity" oninput="setAmount(this.value)">
       <button onclick="add()" aria-label="Increase Container Quantity">
         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#404040">
           <path d="M440-440H240q-17 0-28.5-11.5T200-480q0-17 11.5-28.5T240-520h200v-200q0-17 11.5-28.5T480-760q17 0 28.5 11.5T520-720v200h200q17 0 28.5 11.5T760-480q0 17-11.5 28.5T720-440H520v200q0 17-11.5 28.5T480-200q-17 0-28.5-11.5T440-240v-200Z"/>
@@ -78,27 +37,93 @@
     </label>
   </main>
   <footer>Made with ♥️ by <a href="https://twitter.com/henrylim96" target="_blank">Henry Lim</a> in Hamburg &middot; <a href="https://github.com/limhenry/3d-transform-shipping-container-demo" target="_blank">GitHub</a></footer>
-  
+
   <script>
-    let count = 1;
+    let amount = 1;
+
+    const containersEl = document.querySelector('.containers');
+    const countEl = document.querySelector('.count');
+    const labelEl = document.querySelector('.counter h4');
+
+    const containerMarkup = `
+      <div class="container">
+        <div class="face face--front"></div>
+        <div class="face face--back"></div>
+        <div class="face face--left"></div>
+        <div class="face face--right"></div>
+        <div class="face face--top"></div>
+        <div class="face face--bottom"></div>
+      </div>
+    `;
+
+    const render = () => {
+      // grid grows roughly square as containers are added, since there's no column cap
+      const columns = Math.max(1, Math.ceil(Math.sqrt(amount)));
+      const rows = Math.ceil(amount / columns);
+      // shrink the model as the grid grows so it keeps fitting the fixed-size frame;
+      // dividing by the longer grid dimension keeps the total footprint roughly constant
+      // instead of shrinking further and further as more containers are added
+      const scale = Math.min(0.5, 1.2 / Math.max(columns, rows));
+
+      const width = 235 * scale;
+      const height = 239 * scale;
+      const length = 590 * scale;
+      containersEl.style.setProperty('--width', `${width}px`);
+      containersEl.style.setProperty('--height', `${height}px`);
+      containersEl.style.setProperty('--length', `${length}px`);
+      containersEl.style.width = `${width * columns}px`;
+      containersEl.style.height = `${height * rows}px`;
+
+      // only add/remove the difference so existing containers don't replay the reveal animation
+      const wrapperCount = containersEl.querySelectorAll('.container-wrapper').length;
+      const diff = amount - wrapperCount;
+      if (diff > 0) {
+        for (let i = 0; i < diff; i++) {
+          const wrapper = document.createElement('div');
+          wrapper.className = 'container-wrapper';
+          wrapper.innerHTML = containerMarkup;
+          containersEl.appendChild(wrapper);
+        }
+      } else if (diff < 0) {
+        for (let i = 0; i < -diff; i++) {
+          containersEl.lastElementChild.remove();
+        }
+      }
+
+      containersEl.querySelectorAll('.container-wrapper').forEach((wrapper, index) => {
+        // newest containers occupy the lowest row index, so they appear stacked on top
+        const row = rows - 1 - Math.floor(index / columns);
+        const col = index % columns;
+        wrapper.style.transform = `translateX(calc(var(--width) * ${col})) translateY(calc(var(--height) * ${row}))`;
+      });
+
+      countEl.value = amount;
+      labelEl.textContent = amount === 1 ? 'Container' : 'Containers';
+    }
 
     const add = () => {
-      if (count === 4) return;
-      document.querySelectorAll('.container-wrapper')[count].classList.toggle('active');
-      count = count + 1;
-      document.querySelector('.count').textContent = count;
+      amount = amount + 1;
+      render();
     }
 
     const minus = () => {
-      if (count === 0) return;
-      count = count - 1;
-      document.querySelectorAll('.container-wrapper')[count].classList.toggle('active');
-      document.querySelector('.count').textContent = count;
+      if (amount === 1) return;
+      amount = amount - 1;
+      render();
+    }
+
+    const setAmount = (value) => {
+      const parsed = Math.floor(Number(value));
+      if (!Number.isFinite(parsed) || parsed < 1) return;
+      amount = parsed;
+      render();
     }
 
     const spin = () => {
-      document.querySelector('.containers').classList.toggle('spin');
+      containersEl.classList.toggle('spin');
     }
+
+    render();
   </script>
 </body>
 </html>
